@@ -3,19 +3,19 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import jwt from 'jsonwebtoken';
 
-import authRoutes from './api/auth.js';
-import linksRoutes from './api/links.js';
-import profileRoutes from './api/profile.js';
-import designRoutes from './api/design.js';
-import shopRoutes from './api/shop.js';
-import blogRoutes from './api/blog.js';
-import publicRoutes from './api/public.js';
-import invoiceRoutes from './api/invoices.js';
-import businessRoutes from './api/businesses.js';
-import analyticsRoutes from './api/analytics.js';
-import loyaltyRoutes from './api/loyalty.js';
-import notificationRoutes from './api/notifications.js';
-import socialRoutes from './api/social.js';
+import authRoutes from './routes/auth.js';
+import linksRoutes from './routes/links.js';
+import profileRoutes from './routes/profile.js';
+import designRoutes from './routes/design.js';
+import shopRoutes from './routes/shop.js';
+import blogRoutes from './routes/blog.js';
+import publicRoutes from './routes/public.js';
+import invoiceRoutes from './routes/invoices.js';
+import businessRoutes from './routes/businesses.js';
+import analyticsRoutes from './routes/analytics.js';
+import loyaltyRoutes from './routes/loyalty.js';
+import notificationRoutes from './routes/notifications.js';
+import socialRoutes from './routes/social.js';
 import { initDB, supabase } from './database.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -122,4 +122,9 @@ async function start() {
   }
 }
 
-start();
+// Only start the server automatically if we are not in Vercel's serverless environment
+if (!process.env.VERCEL) {
+  start();
+}
+
+export default app;
