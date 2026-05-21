@@ -1,0 +1,37 @@
+﻿node : file:///C:/Users/ukama/
+Downloads/Linkrra/query_stitch
+.mjs:3
+At line:1 char:1
++ node query_stitch.mjs > 
+error.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (file:///C  
+  :/User...ry_stitch.mjs:3:   
+ String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+import EventSource from 
+"eventsource";
+       ^^^^^^^^^^^
+SyntaxError: The requested 
+module 'eventsource' does not 
+provide an export named 
+'default'
+    at #asyncInstantiate (node
+:internal/modules/esm/module_j
+ob:319:21)
+    at async ModuleJob.run (no
+de:internal/modules/esm/module
+_job:422:5)
+    at async onImport.tracePro
+mise.__proto__ (node:internal/
+modules/esm/loader:661:26)
+    at async asyncRunEntryPoin
+tWithESMLoader (node:internal/
+modules/run_main:101:5)
+
+Node.js v24.14.0

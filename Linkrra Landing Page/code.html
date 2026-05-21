@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Linkrra | Your Business. One Link. Instant Payments.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ff6e84",
+              "surface-container-high": "#1b2023",
+              "primary-fixed": "#b08cff",
+              "on-error-container": "#ffb2b9",
+              "outline-variant": "#44484b",
+              "tertiary": "#ff93b1",
+              "on-primary-container": "#2d006d",
+              "surface-variant": "#212729",
+              "background": "#0b0f11",
+              "outline": "#727678",
+              "tertiary-fixed-dim": "#f77ca0",
+              "surface-container-highest": "#212729",
+              "on-surface-variant": "#a8abae",
+              "tertiary-dim": "#f0779b",
+              "inverse-surface": "#f7fafc",
+              "on-surface": "#f7fafc",
+              "on-primary": "#3b008a",
+              "primary": "#bc9eff",
+              "on-secondary-fixed-variant": "#863b00",
+              "error-dim": "#d73357",
+              "surface-tint": "#bc9eff",
+              "primary-container": "#b08cff",
+              "on-primary-fixed": "#000000",
+              "on-background": "#f7fafc",
+              "surface-container-low": "#101416",
+              "on-tertiary": "#670731",
+              "on-tertiary-fixed": "#380017",
+              "on-secondary": "#491d00",
+              "tertiary-container": "#fa7ea3",
+              "secondary-fixed-dim": "#ffb287",
+              "surface-bright": "#272d30",
+              "on-error": "#490013",
+              "primary-dim": "#884efb",
+              "on-secondary-container": "#fff6f2",
+              "surface-dim": "#0b0f11",
+              "secondary": "#f98c49",
+              "secondary-container": "#9b4500",
+              "on-tertiary-fixed-variant": "#701037",
+              "on-tertiary-container": "#550026",
+              "secondary-dim": "#ec823f",
+              "inverse-on-surface": "#525658",
+              "surface-container": "#151a1d",
+              "primary-fixed-dim": "#a47bff",
+              "secondary-fixed": "#ffc5a6",
+              "on-secondary-fixed": "#592500",
+              "surface": "#0b0f11",
+              "error-container": "#a70138"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { background-color: #0b0f11; color: #f7fafc; }
+      .kinetic-gradient { background: linear-gradient(135deg, #bc9eff 0%, #884efb 100%); }
+      .glass-card { backdrop-filter: blur(20px); background: rgba(33, 39, 41, 0.6); }
+      .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0b0f11] shadow-[0_0_20px_rgba(188,158,255,0.05)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#bc9eff] font-['Space_Grotesk'] cursor-pointer active:scale-95 transition-all duration-300 ease-in-out">
+                Linkrra
+            </div>
+<div class="hidden md:flex items-center space-x-8 font-['Space_Grotesk'] text-sm tracking-wide uppercase">
+<a class="text-[#f7fafc]/70 hover:text-[#f7fafc] transition-all duration-300 ease-in-out cursor-pointer active:scale-95" href="#">Products</a>
+<a class="text-[#f7fafc]/70 hover:text-[#f7fafc] transition-all duration-300 ease-in-out cursor-pointer active:scale-95" href="#">Company</a>
+<a class="text-[#f7fafc]/70 hover:text-[#f7fafc] transition-all duration-300 ease-in-out cursor-pointer active:scale-95" href="#">Pricing</a>
+<a class="text-[#f7fafc]/70 hover:text-[#f7fafc] transition-all duration-300 ease-in-out cursor-pointer active:scale-95" href="#">For Accountants</a>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-[#f7fafc]/70 hover:text-[#f7fafc] font-['Space_Grotesk'] text-sm tracking-wide uppercase transition-all duration-300 ease-in-out cursor-pointer active:scale-95">
+                    Login
+                </button>
+<button class="kinetic-gradient text-on-primary px-6 py-2.5 rounded-full font-['Space_Grotesk'] text-sm tracking-wide uppercase font-bold hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer active:scale-95">
+                    Get Started
+                </button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 overflow-hidden px-6 lg:px-8">
+<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+<div class="z-10">
+<h1 class="font-headline text-5xl md:text-7xl font-bold leading-tight mb-8">
+                    Your Business.<br/>
+<span class="text-primary">One Link.</span><br/>
+                    Instant Payments.
+                </h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-lg mb-10 leading-relaxed">
+                    The ultra-fast payment infrastructure for modern small businesses. Accept NFC, QR, and remote payments in seconds without the heavy hardware.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="kinetic-gradient text-on-primary px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(188,158,255,0.3)]">
+                        Create Your Linkrra
+                    </button>
+<button class="border border-outline-variant hover:bg-surface-container-highest px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_circle</span>
+                        See How It Works
+                    </button>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary/10 blur-3xl rounded-full"></div>
+<div class="relative rounded-3xl overflow-hidden border border-outline-variant/30 shadow-2xl glass-card">
+<video autoplay="" class="w-full h-full object-cover aspect-video sm:aspect-square" data-alt="Modern smartphone showing NFC payment processing and QR code display" loop="" muted="" playsinline="">
+<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_192508_4eecde4c-f835-4f4b-b255-eafd1156da99.mp4" type="video/mp4"/>
+</video>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6 lg:px-8">
+<div class="text-center mb-20">
+<h2 class="font-headline text-4xl md:text-5xl font-bold mb-4">Three Steps to Freedom</h2>
+<div class="h-1 w-20 kinetic-gradient mx-auto rounded-full"></div>
+</div>
+<div class="grid md:grid-cols-3 gap-12">
+<!-- Step 1 -->
+<div class="relative p-8 rounded-2xl bg-surface-container-highest border border-outline-variant/10 hover:border-primary/30 transition-all duration-500">
+<div class="w-16 h-16 rounded-2xl kinetic-gradient flex items-center justify-center mb-8 shadow-lg">
+<span class="material-symbols-outlined text-3xl" data-weight="fill">contactless</span>
+</div>
+<h3 class="text-2xl font-bold mb-4 font-headline">NFC/QR/Link</h3>
+<p class="text-on-surface-variant leading-relaxed">Instantly generate a secure payment link, QR code, or use our mobile NFC tap technology.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative p-8 rounded-2xl bg-surface-container-highest border border-outline-variant/10 hover:border-secondary/30 transition-all duration-500">
+<div class="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-8 shadow-lg">
+<span class="material-symbols-outlined text-3xl" data-weight="fill">receipt_long</span>
+</div>
+<h3 class="text-2xl font-bold mb-4 font-headline">Invoice &amp; Pay</h3>
+<p class="text-on-surface-variant leading-relaxed">Your customers get a premium, mobile-first invoice that supports cards, wallets, and crypto.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative p-8 rounded-2xl bg-surface-container-highest border border-outline-variant/10 hover:border-tertiary/30 transition-all duration-500">
+<div class="w-16 h-16 rounded-2xl bg-tertiary flex items-center justify-center mb-8 shadow-lg">
+<span class="material-symbols-outlined text-3xl" data-weight="fill">workspace_premium</span>
+</div>
+<h3 class="text-2xl font-bold mb-4 font-headline">Points Earned</h3>
+<p class="text-on-surface-variant leading-relaxed">Both you and your customers earn platform rewards with every transaction settled.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Templates Bento Grid -->
+<section class="py-24 px-6 lg:px-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+<div>
+<h2 class="font-headline text-4xl md:text-5xl font-bold mb-4">Designed for your craft</h2>
+<p class="text-on-surface-variant text-lg">Choose a template tailored to your business vertical.</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:gap-4 transition-all duration-300">
+                    Browse All Templates <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Template 1 -->
+<div class="group relative md:col-span-2 h-[400px] rounded-3xl overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="High-end fashion boutique store interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6GWSjRzpGEGrgz_CFUr7S8ePQgvMQbD97HLM_kpqbVm4MwxuUvoAzm7oT68j8hLzjEX8dhE1PmJVmyfk1qpTOWbTKevFCWNVQWuoWFGQp-XI-w2hRkmCqwh8YlJ6VV55e7CwBmN-ARA2GBi7qLIGxDXRDZfE7LXpusMlZ5tEOXKtgDEN8EG0v-ECfngynwQprXfsopVA6534o3No0X4VNg_Wi3umFedOQVRzBA5l1muAWupHfkKuNOx4ZYA1UsbAq2uecVbPIFcea"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md text-primary text-xs font-bold uppercase mb-4 inline-block">Fashion</span>
+<h4 class="text-2xl font-bold font-headline">E-commerce Link</h4>
+</div>
+</div>
+<!-- Template 2 -->
+<div class="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Professional barber shop with vintage chairs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFirVtBXIChZjfd7istl9dTu0Qu_EwezLe6Zdnig9xZlhZY6MYzBQXhC99gp6I1VPJVWnfRMV6mOVhIteFWl7OLGxN2bSpjY4wYNjrLibTd16byuhcc7S8qU6IbNFaQFHrJuG7vUeglZ08mCxslziiRqb-pYaRznPrrufWSc6g8gxWQmG0CIckE21lTWh4a_MS9v5blA6NrUgMocaPPf0tRdkemqzkdZiWNOsro3_YNP-vXCw7L8OMwqckOkiO5x1SNCRLTVn80Ysw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="px-3 py-1 rounded-full bg-secondary/20 backdrop-blur-md text-secondary text-xs font-bold uppercase mb-4 inline-block">Barber/Salon</span>
+<h4 class="text-2xl font-bold font-headline">Booking Flow</h4>
+</div>
+</div>
+<!-- Template 3 -->
+<div class="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Modern home office workspace for creative professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD_4Y0JBOoXx7AzkhZCGr5l7HYucFKhJIXXODpLpCd26h3fV229ohuM1C6yR50IRxsynccVjGv7U_NVHRydnh4_ZV2miVaHT9wOxd44NlTd-MiKm6oY9-SgdNlFSLsL5rq0A2xqo1kS3ipEnsOKVb7AwCr5jSxp_pRaywq1AMCN1phTpPpAG4dhGiA7DQyF8ScJRSUquLCGW1fm7oSUVMvYxoAi99KviI_7TSaqrHRYkQu852QfMPiAq09JzZDHEpZGlnf06EC4-Oo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="px-3 py-1 rounded-full bg-tertiary/20 backdrop-blur-md text-tertiary text-xs font-bold uppercase mb-4 inline-block">Creator</span>
+<h4 class="text-2xl font-bold font-headline">Portfolio Pay</h4>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Linkrra (High Contrast Features) -->
+<section class="py-24 bg-[#101416] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full translate-x-1/2"></div>
+<div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+<div class="grid lg:grid-cols-2 gap-20 items-center">
+<div>
+<h2 class="font-headline text-4xl md:text-6xl font-bold mb-12 leading-tight">Professionalism at the speed of <span class="text-primary italic">Now.</span></h2>
+<div class="space-y-12">
+<div class="flex gap-6">
+<div class="text-primary pt-1">
+<span class="material-symbols-outlined text-4xl">savings</span>
+</div>
+<div>
+<h4 class="text-2xl font-bold mb-2 font-headline">Zero Hidden Fees</h4>
+<p class="text-on-surface-variant leading-relaxed">Unlike traditional banks, our fee structure is transparent. You keep more of what you earn with 0.5% lower processing fees than incumbents.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="text-secondary pt-1">
+<span class="material-symbols-outlined text-4xl">security</span>
+</div>
+<div>
+<h4 class="text-2xl font-bold mb-2 font-headline">Bank-Grade NFC Security</h4>
+<p class="text-on-surface-variant leading-relaxed">Every tap is encrypted end-to-end. We use biometric verification for payouts and 256-bit SSL for every single transaction link.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="text-tertiary pt-1">
+<span class="material-symbols-outlined text-4xl">stars</span>
+</div>
+<div>
+<h4 class="text-2xl font-bold mb-2 font-headline">Rewards for Loyalty</h4>
+<p class="text-on-surface-variant leading-relaxed">Turn every transaction into a point. Redeem Linkrra points for business tool subscriptions or fee rebates.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="glass-card p-4 rounded-[2rem] border border-outline-variant/20 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+<div class="bg-surface-container-lowest rounded-[1.5rem] p-8 aspect-[4/5] flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl kinetic-gradient flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">token</span>
+</div>
+<span class="text-on-surface-variant font-mono text-xs tracking-widest uppercase">Verified Merchant</span>
+</div>
+<div>
+<h5 class="text-on-surface-variant text-sm mb-1 uppercase tracking-tighter">Current Balance</h5>
+<div class="text-5xl font-headline font-bold mb-4">$12,450.00</div>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">trending_up</span>
+                                    +12.5% this week
+                                </div>
+</div>
+<div class="pt-8 border-t border-outline-variant/10">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 mb-4">Recent Payouts</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-sm">Batch #822</span>
+<span class="text-primary font-bold">+$2,100</span>
+</div>
+<div class="flex justify-between items-center opacity-50">
+<span class="text-sm">Batch #821</span>
+<span class="text-on-surface">+$1,850</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="py-24 px-6 lg:px-8">
+<div class="max-w-7xl mx-auto">
+<h2 class="font-headline text-4xl font-bold mb-16 text-center">Built for the Visionaries</h2>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="p-8 rounded-3xl bg-surface-container border border-outline-variant/10">
+<div class="flex gap-1 text-secondary mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg italic mb-8 leading-relaxed">"Switching to Linkrra saved us 4% in processing fees in the first month. The QR code links are a game changer for our pop-up shops."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of female business owner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcWBAjUFo9JPPfRzWwl4ZraSwyRUecyN0PIhESU8rNcw-k714C1yzR-cE1HlGADH7D4fyYKOpsTKi1BcwY0Fw7aWwfz2wxBpvx5jmcyjEkzdTbSE7XZju-VnAl_LPsK2rxeNtznr1lO5YWGWIX-AyzmwHsy09BU3ED3W5w0bXHeGCzkUYfrSQgki1WGzunqnj85vEQZOfvrJx4a48hrdIExveeI39dPIpFIzK84WSRgdONUO4eMbIoRJxFPHoUXJ5v7EzH52Smmq-s"/>
+</div>
+<div>
+<div class="font-bold">Sarah Chen</div>
+<div class="text-xs text-on-surface-variant uppercase tracking-widest">Founder, Ritual Tea</div>
+</div>
+</div>
+</div>
+<div class="p-8 rounded-3xl bg-surface-container border border-outline-variant/10">
+<div class="flex gap-1 text-secondary mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg italic mb-8 leading-relaxed">"The NFC tap payment on my phone means I don't need a clunky terminal. It's fast, secure, and my clients are always impressed."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of male freelancer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj5ehpfx32BTTPeW4Q4Vlo4UloU2rD-ItNU7uxhE1V_eOzARJasD0TJZPvcuGKrp36EzRns5RmlyuVw7Y3QHGKB72x6vXUERnOzLga9ZT4-Zspw7X2japJMe-rkcId14IV2AldRCDpEzKSJxyOIAqRhQXGaAONnxb7N0ffWzyK-HtLe5mIlWmEfAULcvD_98fXQaiSjBCoRcuSr4c9fckkDtIustQZVT9XF-_cdTfhFqG4ZdpjhCHTSBqEgtoLs_4Me1zvul7WGEfu"/>
+</div>
+<div>
+<div class="font-bold">Marcus Thorne</div>
+<div class="text-xs text-on-surface-variant uppercase tracking-widest">Creative Director</div>
+</div>
+</div>
+</div>
+<div class="p-8 rounded-3xl bg-surface-container border border-outline-variant/10">
+<div class="flex gap-1 text-secondary mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg italic mb-8 leading-relaxed">"We manage 15 locations and the Linkrra dashboard gives us a unified view of every transaction. Instant payouts keep our cash flow healthy."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Portrait of professional operations manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc8y27C33bmd9v41wCMOsfeX0CLGKb6Ws84b3N5woimeAIpeQOkpiOjxLue63t_tVI5qSmOjxLEFtZLfkv-HcXODZGIEXFE5qOobhNjvuILx8OHuCTddeDqx31ZBgQseTUnCEU1G1Td5ZUF0b7_IFXHb0RwAawbgAZwssi5B84PDxhqvdtguda6ZCHKyGgDsSymex934is7PdRheo8XBpbkHQR6i80IdTPSCsVmII2x9tVbe23T8R-SnUnsAkjLndyBXOxIQUunrwQ"/>
+</div>
+<div>
+<div class="font-bold">Elena Rodriguez</div>
+<div class="text-xs text-on-surface-variant uppercase tracking-widest">Ops Manager, FreshBite</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="px-6 lg:px-8 mb-20">
+<div class="max-w-7xl mx-auto rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden kinetic-gradient shadow-[0_20px_60px_rgba(188,158,255,0.2)]">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_100%)] opacity-30"></div>
+<div class="relative z-10">
+<h2 class="font-headline text-4xl md:text-6xl font-bold text-on-primary mb-8 leading-tight">Ready to transform how you get paid?</h2>
+<button class="bg-surface text-primary-fixed px-12 py-6 rounded-full font-bold text-xl hover:scale-105 transition-all duration-300 shadow-2xl active:scale-95">
+                    Create Your Linkrra Now
+                </button>
+<p class="mt-8 text-on-primary/60 font-medium">Join over 12,000+ businesses globally.</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full bg-[#0b0f11] rounded-t-[2rem] mt-20 shadow-[0_-10px_40px_rgba(188,158,255,0.1)]">
+<div class="max-w-7xl mx-auto">
+<div class="bg-gradient-to-r from-[#bc9eff] to-[#f98c49] h-[1px] opacity-20"></div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-12 px-8 py-16">
+<div class="col-span-2">
+<div class="text-xl font-bold text-[#bc9eff] mb-4 font-['Space_Grotesk']">Linkrra</div>
+<p class="font-['Manrope'] text-sm text-[#f7fafc]/60 max-w-xs mb-8">
+                        The premium payment layer for high-velocity professionals. One link to rule your business ecosystem.
+                    </p>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-[#bc9eff] hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-sm">public</span>
+</div>
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-[#bc9eff] hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-sm">share</span>
+</div>
+</div>
+</div>
+<div>
+<h5 class="font-bold text-[#f7fafc] mb-6 font-['Space_Grotesk'] text-sm uppercase tracking-widest">Platform</h5>
+<ul class="space-y-4 font-['Manrope'] text-sm text-[#f7fafc]/50">
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Products</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Security</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Rewards</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Templates</li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-[#f7fafc] mb-6 font-['Space_Grotesk'] text-sm uppercase tracking-widest">Company</h5>
+<ul class="space-y-4 font-['Manrope'] text-sm text-[#f7fafc]/50">
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Company</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Resources</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Support</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Pricing</li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-[#f7fafc] mb-6 font-['Space_Grotesk'] text-sm uppercase tracking-widest">Social</h5>
+<ul class="space-y-4 font-['Manrope'] text-sm text-[#f7fafc]/50">
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Twitter</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">LinkedIn</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">GitHub</li>
+<li class="hover:text-[#bc9eff] hover:translate-x-1 transition-all duration-300 cursor-pointer">Legal</li>
+</ul>
+</div>
+</div>
+<div class="px-8 pb-12">
+<div class="bg-gradient-to-r from-[#bc9eff] to-[#f98c49] h-[1px] opacity-10 mb-8"></div>
+<div class="flex flex-col md:row items-center justify-between gap-4 font-['Manrope'] text-xs text-[#f7fafc]/40 uppercase tracking-[0.2em]">
+<span>© 2024 Linkrra. High-Velocity Professionalism.</span>
+<div class="flex gap-8">
+<span class="hover:text-[#bc9eff] cursor-pointer">Privacy Policy</span>
+<span class="hover:text-[#bc9eff] cursor-pointer">Terms of Service</span>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

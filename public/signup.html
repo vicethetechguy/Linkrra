@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Linkrra</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body class="kinetic-app auth-page">
+
+    <!-- Premium Animated Background -->
+    <div class="auth-bg">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+    </div>
+
+    <!-- Auth Navigation -->
+    <a href="index.html" class="back-link anim-fade-in">
+        <span class="material-symbols-outlined">west</span>
+        <span>Back to Home</span>
+    </a>
+
+    <div class="auth-card anim-fade-up">
+        <div class="auth-header">
+            <img src="logo.png" alt="Linkrra" class="logo-image">
+            <h2>Claim Your <span class="text-gradient">Business</span></h2>
+            <p>Start accepting instant payments in minutes.</p>
+        </div>
+
+        <form class="auth-form" id="signup-form">
+            <div class="form-group">
+                <label for="business">Business Name</label>
+                <input type="text" id="business" class="form-control" placeholder="e.g. Gotham Coffee" required>
+                <span class="field-error" id="business-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="hello@linkrra.com" required>
+                <span class="field-error" id="email-error"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Create Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Min. 8 characters" required minlength="8">
+                <span class="field-error" id="password-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" class="form-control" placeholder="Repeat password" required>
+                <span class="field-error" id="confirm-error"></span>
+            </div>
+
+            <div class="error-banner" id="error-msg" style="display:none;"></div>
+
+            <button type="submit" class="btn-kinetic auth-btn" id="signup-btn">Start Your Growth &rarr;</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Log in here</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signup-form');
+        const businessInput = document.getElementById('business');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm-password');
+        const errorMsg = document.getElementById('error-msg');
+        const btn = document.getElementById('signup-btn');
+
+        // Simple Validation logic
+        function validate() {
+            let isValid = true;
+            if (businessInput.value.length < 2) { document.getElementById('business-error').textContent = 'Business name too short'; isValid = false; }
+            if (passwordInput.value.length < 8) { document.getElementById('password-error').textContent = 'Password must be 8+ chars'; isValid = false; }
+            if (passwordInput.value !== confirmInput.value) { document.getElementById('confirm-error').textContent = 'Passwords do not match'; isValid = false; }
+            return isValid;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+            if (!validate()) return;
+
+            btn.textContent = 'Creating Account...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        business_name: businessInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        password: passwordInput.value
+                    })
+                });
+
+                const data = await res.json();
+                if (!res.ok) {
+                    errorMsg.textContent = data.error || 'Signup failed.';
+                    errorMsg.style.display = 'block';
+                    btn.textContent = 'Start Your Growth →';
+                    btn.disabled = false;
+                    return;
+                }
+
+                localStorage.setItem('linkrra_token', data.token);
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                errorMsg.textContent = 'Network error. Please try again.';
+                errorMsg.style.display = 'block';
+                btn.textContent = 'Start Your Growth →';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
+

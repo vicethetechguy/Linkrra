@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Linkrra</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body class="kinetic-app auth-page">
+
+    <!-- Premium Animated Background -->
+    <div class="auth-bg">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+    </div>
+
+    <!-- Auth Navigation -->
+    <a href="index.html" class="back-link anim-fade-in">
+        <span class="material-symbols-outlined">west</span>
+        <span>Back to Home</span>
+    </a>
+
+    <div class="auth-card anim-fade-up">
+        <div class="auth-header">
+            <img src="logo.png" alt="Linkrra" class="logo-image">
+            <h2>Welcome <span class="text-gradient">Back</span></h2>
+            <p>Ready to level up your business management?</p>
+        </div>
+
+        <form class="auth-form" id="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                <span class="field-error" id="email-error"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••" required minlength="6">
+                <span class="field-error" id="password-error"></span>
+            </div>
+
+            <div class="error-banner" id="error-msg" style="display:none;"></div>
+
+            <button type="submit" class="btn-kinetic auth-btn" id="login-btn">Log In Securely &rarr;</button>
+        </form>
+
+        <div class="auth-footer">
+            New to Linkrra? <a href="signup.html">Create your free account</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const errorMsg = document.getElementById('error-msg');
+        const btn = document.getElementById('login-btn');
+
+        // Real-time validation
+        emailInput.addEventListener('blur', validateEmail);
+        emailInput.addEventListener('input', () => { if (emailError.textContent) validateEmail(); });
+        passwordInput.addEventListener('blur', validatePassword);
+        passwordInput.addEventListener('input', () => { if (passwordError.textContent) validatePassword(); });
+
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            if (!email) { emailError.textContent = 'Email is required'; return false; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailError.textContent = 'Valid email required'; return false; }
+            emailError.textContent = ''; return true;
+        }
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            if (!password) { passwordError.textContent = 'Password required'; return false; }
+            if (password.length < 6) { passwordError.textContent = 'Minimum 6 characters'; return false; }
+            passwordError.textContent = ''; return true;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+            if (!validateEmail() || !validatePassword()) return;
+
+            btn.textContent = 'Authenticating...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailInput.value.trim(), password: passwordInput.value })
+                });
+
+                const data = await res.json();
+                if (!res.ok) {
+                    errorMsg.textContent = data.error || 'Check your credentials.';
+                    errorMsg.style.display = 'block';
+                    btn.textContent = 'Log In Securely →';
+                    btn.disabled = false;
+                    return;
+                }
+
+                localStorage.setItem('linkrra_token', data.token);
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                errorMsg.textContent = 'Connection error. Please try again.';
+                errorMsg.style.display = 'block';
+                btn.textContent = 'Log In Securely →';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
+

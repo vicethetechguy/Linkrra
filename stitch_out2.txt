@@ -1,0 +1,6 @@
+Error: SSE error: TypeError: fetch failed: getaddrinfo ENOTFOUND stitch.googleais.com
+Error: SSE error: TypeError: fetch failed: getaddrinfo ENOTFOUND stitch.googleais.com
+    at _eventSource.onerror (file:///C:/Users/ukama/Downloads/Linkrra/node_modules/@modelcontextprotocol/sdk/dist/esm/client/sse.js:93:31)
+    at EventSource.scheduleReconnect_fn (file:///C:/Users/ukama/Downloads/Linkrra/node_modules/@modelcontextprotocol/sdk/node_modules/eventsource/dist/index.js:248:53)
+    at file:///C:/Users/ukama/Downloads/Linkrra/node_modules/@modelcontextprotocol/sdk/node_modules/eventsource/dist/index.js:98:174
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)

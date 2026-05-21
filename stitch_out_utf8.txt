@@ -1,0 +1,38 @@
+﻿node : node:fs:2413
+At line:1 char:1
++ node query_stitch.mjs > 
+stitch_output.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (node:fs:2  
+  413:String) [], RemoteExc   
+ eption
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+    return 
+binding.writeFileUtf8(
+                   ^
+
+Error: EBUSY: resource busy 
+or locked, open 'C:\Users\ukam
+a\Downloads\Linkrra\stitch_out
+put.txt'
+    at Object.writeFileSync 
+(node:fs:2413:20)
+    at main (file:///C:/Users/
+ukama/Downloads/Linkrra/query_
+stitch.mjs:58:8)
+    at process.processTicksAnd
+Rejections (node:internal/proc
+ess/task_queues:104:5) {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: 'C:\\Users\\ukama\\Dow
+nloads\\Linkrra\\stitch_output
+.txt'
+}
+
+Node.js v24.14.0

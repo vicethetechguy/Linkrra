@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Linkrra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css?v=3.5">
+    <style>
+        /* Instantly hides the empty skeleton until user data is ready, preventing the flash entirely */
+        body { visibility: hidden; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="topnav">
+        <div class="topnav-inner">
+            <div class="topnav-logo">
+                <img src="logo.png" alt="Linkrra" class="logo-image">
+            </div>
+            <div class="topnav-center">
+                <div class="promo-pill">
+                    <span class="promo-text">Get started with <strong>Pro</strong> — unlock premium templates and analytics.</span>
+                    <button class="btn-upgrade" onclick="window.open('/pricing.html', '_blank')">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">bolt</span>
+                        Upgrade
+                    </button>
+                </div>
+            </div>
+            <div class="topnav-right">
+                <button class="icon-button" id="notifications-btn" onclick="navigateTo('notifications')" style="position:relative;">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="notification-badge" id="notif-badge" style="display:none;">0</span>
+                </button>
+                <div class="avatar-ring" onclick="navigateToPage('profile')" style="cursor:pointer;">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User" id="topnav-avatar">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <!-- User Switcher -->
+                <div class="user-switcher" id="user-switcher" style="cursor: pointer;">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User" class="user-avatar" id="sidebar-user-avatar" style="cursor: pointer;" onclick="navigateToPage('profile')">
+                    <div class="user-meta" style="cursor: pointer;" onclick="navigateToPage('profile')">
+                        <span class="user-name" id="sidebar-username">Loading...</span>
+                    </div>
+                    <span class="material-symbols-outlined chevron" id="business-chevron" style="cursor:pointer;">expand_more</span>
+                </div>
+
+                <!-- Business Dropdown -->
+                <div class="business-dropdown" id="business-dropdown" style="display:none;">
+                    <div class="business-dropdown-header">
+                        <span class="business-dropdown-title">Add Business</span>
+                    </div>
+                    <div class="business-dropdown-content">
+                        <input type="text" id="new-business-name" placeholder="Business name" class="business-input">
+                        <button class="business-add-btn" id="add-business-btn">Add</button>
+                    </div>
+                    <div class="business-limit-msg" id="business-limit-msg"></div>
+                    <div class="business-list" id="business-list"></div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="sidebar-nav">
+                    <div class="nav-group">
+                        <span class="nav-label">My Linkrra</span>
+                        <a href="#" class="nav-link" data-page="links">
+                            <span class="material-symbols-outlined">link</span>
+                            Links
+                        </a>
+                        <a href="#" class="nav-link" data-page="shop">
+                            <span class="material-symbols-outlined">storefront</span>
+                            Shop
+                        </a>
+                        <a href="#" class="nav-link active" data-page="design">
+                            <span class="material-symbols-outlined">palette</span>
+                            Design
+                        </a>
+                        <a href="#" class="nav-link" data-page="earn">
+                            <span class="material-symbols-outlined">payments</span>
+                            Earn
+                        </a>
+                        <a href="#" class="nav-link" data-page="card">
+                            <span class="material-symbols-outlined">credit_card</span>
+                            Card
+                        </a>
+                        <a href="#" class="nav-link" data-page="blog">
+                            <span class="material-symbols-outlined">article</span>
+                            Blog
+                        </a>
+                    </div>
+
+                    <div class="nav-group">
+                        <a href="#" class="nav-link" data-page="audience">
+                            <span class="material-symbols-outlined">group</span>
+                            Audience
+                        </a>
+                        <a href="#" class="nav-link" data-page="insights">
+                            <span class="material-symbols-outlined">insights</span>
+                            Insights
+                        </a>
+                    </div>
+
+                    <div class="nav-group">
+                        <span class="nav-label">Tools</span>
+                        <a href="#" class="nav-link" data-page="invoice">
+                            <span class="material-symbols-outlined">receipt_long</span>
+                            Invoice
+                        </a>
+                        <a href="#" class="nav-link" data-page="social_planner">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            Social Planner
+                        </a>
+                    </div>
+                </nav>
+
+                <!-- Setup Checklist -->
+                <div class="setup-card">
+                    <div class="setup-ring">
+                        <svg viewBox="0 0 36 36" class="ring-svg">
+                            <circle cx="18" cy="18" r="15.9" class="ring-bg"/>
+                            <circle cx="18" cy="18" r="15.9" class="ring-progress" style="stroke-dasharray: 83.5 100;"/>
+                        </svg>
+                        <span class="ring-label">83%</span>
+                    </div>
+                    <h5 class="setup-title">Your setup checklist</h5>
+                    <p class="setup-desc">5 of 6 complete</p>
+                    <button class="btn-kinetic-sm">Finish Setup</button>
+                </div>
+
+                <!-- Log Out Button -->
+                <div class="nav-group" style="margin-top: 1rem; margin-bottom: 2rem;">
+                    <a href="#" class="nav-link" onclick="logout()" style="color: #ff6e84;">
+                        <span class="material-symbols-outlined">logout</span>
+                        Log Out
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-area">
+            <div class="main-header">
+                <h1 class="page-title">Design</h1>
+            </div>
+
+            <div class="page-content" id="page-content">
+                <div class="design-grid">
+                    <!-- Dynamic content rendered by dashboard.js -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Preview Panel -->
+        <aside class="preview-aside">
+            <div class="preview-url-bar">
+                <span class="url-text" id="preview-url-display">linkrra.com/username</span>
+                <span class="material-symbols-outlined copy-icon">content_copy</span>
+            </div>
+
+            <div class="device-frame">
+                <div class="device-notch"></div>
+                <div class="device-screen">
+                    <!-- Mock Linkrra Page -->
+                    <div class="mock-page">
+                        <div class="mock-banner">
+                            <div class="mock-banner-overlay"></div>
+                            <div class="mock-banner-header">
+                                <div class="mock-banner-share">
+                                    <span class="material-symbols-outlined" style="font-size:14px;color:white;">share</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mock-profile-area">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="User" class="mock-avatar" id="mock-avatar">
+                            <div class="mock-name-row">
+                                <span class="mock-name" id="mock-display-name">Username</span>
+                                <div class="mock-verified" id="mock-verified" style="display:none;">
+                                    <span class="material-symbols-outlined" style="font-size:10px;color:white;">verified</span>
+                                </div>
+                            </div>
+                            <p class="mock-bio" id="mock-display-bio"></p>
+                        </div>
+                        <div class="mock-links"></div>
+                        <div class="mock-shop-section" style="display:none;">
+                            <div class="mock-section-title">
+                                <span class="material-symbols-outlined" style="font-size:14px;">storefront</span>
+                                Shop
+                            </div>
+                            <div class="mock-shop-grid"></div>
+                        </div>
+                        <div class="mock-blog-section" style="display:none;">
+                            <div class="mock-section-title">
+                                <span class="material-symbols-outlined" style="font-size:14px;">article</span>
+                                Blog
+                            </div>
+                            <div class="mock-blog-grid"></div>
+                        </div>
+                        <div class="mock-footer" id="mock-footer">
+                            <span class="mock-footer-text">Powered by</span>
+                            <span class="mock-footer-logo">Linkrra</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Mobile Bottom Tab Bar -->
+        <nav class="mobile-tab-bar">
+            <button class="mob-tab active" data-page="links" onclick="navigateToPage('links')">
+                <span class="material-symbols-outlined">link</span>
+                <span class="mob-tab-label">Links</span>
+            </button>
+            <button class="mob-tab" data-page="shop" onclick="navigateToPage('shop')">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="mob-tab-label">Shop</span>
+            </button>
+            <button class="mob-tab" data-page="design" onclick="navigateToPage('design')">
+                <span class="material-symbols-outlined">palette</span>
+                <span class="mob-tab-label">Design</span>
+            </button>
+            <button class="mob-tab" data-page="earn" onclick="navigateToPage('earn')">
+                <span class="material-symbols-outlined">payments</span>
+                <span class="mob-tab-label">Earn</span>
+            </button>
+            <button class="mob-tab" data-page="more" id="mob-more-btn">
+                <span class="material-symbols-outlined">menu</span>
+                <span class="mob-tab-label">More</span>
+            </button>
+        </nav>
+
+        <!-- Mobile More Menu Overlay -->
+        <div class="mobile-more-menu" id="mobile-more-menu">
+            <div class="mobile-more-content">
+                <div class="mobile-more-header">
+                    <h3>More</h3>
+                    <button class="mobile-more-close" id="mobile-more-close">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="mobile-more-grid">
+                    <button class="more-item" onclick="navigateToPage('blog'); closeMobileMore()">
+                        <span class="material-symbols-outlined">article</span>
+                        <span>Blog</span>
+                    </button>
+                    <button class="more-item" onclick="navigateToPage('card'); closeMobileMore()">
+                        <span class="material-symbols-outlined">credit_card</span>
+                        <span>Card</span>
+                    </button>
+                    <button class="more-item" onclick="navigateToPage('invoice'); closeMobileMore()">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        <span>Invoice</span>
+                    </button>
+                    <button class="more-item" onclick="navigateToPage('insights'); closeMobileMore()">
+                        <span class="material-symbols-outlined">insights</span>
+                        <span>Insights</span>
+                    </button>
+                    <button class="more-item" onclick="navigateToPage('audience'); closeMobileMore()">
+                        <span class="material-symbols-outlined">group</span>
+                        <span>Audience</span>
+                    </button>
+                    <button class="more-item" onclick="navigateToPage('social_planner'); closeMobileMore()">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                        <span>Social</span>
+                    </button>
+                    <button class="more-item" onclick="navigateToPage('profile'); closeMobileMore()">
+                        <span class="material-symbols-outlined">person</span>
+                        <span>Profile</span>
+                    </button>
+                    <button class="more-item" style="color: #ff6e84;" onclick="logout()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js?v=3.5"></script>
+    <script>
+    // Mobile More Menu Toggle
+    const mobMoreBtn = document.getElementById('mob-more-btn');
+    const mobMoreMenu = document.getElementById('mobile-more-menu');
+    const mobMoreClose = document.getElementById('mobile-more-close');
+
+    if (mobMoreBtn) {
+        mobMoreBtn.addEventListener('click', () => {
+            mobMoreMenu.classList.add('open');
+        });
+    }
+
+    if (mobMoreClose) {
+        mobMoreClose.addEventListener('click', closeMobileMore);
+    }
+
+    if (mobMoreMenu) {
+        mobMoreMenu.addEventListener('click', (e) => {
+            if (e.target === mobMoreMenu) closeMobileMore();
+        });
+    }
+
+    function closeMobileMore() {
+        document.getElementById('mobile-more-menu').classList.remove('open');
+    }
+
+    // Sync mobile tab bar active state with current page
+    const originalNavigateToPage = window.navigateToPage;
+    if (typeof originalNavigateToPage === 'function') {
+        const _origNav = originalNavigateToPage;
+        window.navigateToPage = function(page) {
+            _origNav(page);
+            syncMobileTabs(page);
+        };
+    }
+
+    function syncMobileTabs(page) {
+        document.querySelectorAll('.mob-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.dataset.page === page) tab.classList.add('active');
+        });
+        const moreTabs = ['blog', 'card', 'invoice', 'insights', 'audience', 'social_planner', 'profile', 'notifications'];
+        if (moreTabs.includes(page)) {
+            document.querySelectorAll('.mob-tab').forEach(t => t.classList.remove('active'));
+            const moreBtn = document.getElementById('mob-more-btn');
+            if (moreBtn) moreBtn.classList.add('active');
+        }
+    }
+    </script>
+</body>
+</html>
