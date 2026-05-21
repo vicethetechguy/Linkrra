@@ -375,6 +375,7 @@ function navigateTo(page) {
     case 'insights': renderInsightsPage(container); break;
     case 'invoice': renderInvoicePage(container); break;
     case 'social_planner': renderPlannerPage(container); break;
+    case 'preview': renderPreviewPage(container); break;
     default: renderLinksPage(container);
   }
   // Remove pricing mode class when switching pages
@@ -474,6 +475,12 @@ function renderLinksPage(c) {
     showBtn.style.display = 'none';
     selectedLinkImage = null;
     linkImgPreview.innerHTML = `<span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span><span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>`;
+    document.getElementById('new-link-title').value = '';
+    document.getElementById('new-link-url').value = '';
+    const saveBtn = document.getElementById('save-new-link');
+    saveBtn.dataset.editId = '';
+    saveBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">add_link</span> Add Link';
+    document.querySelector('#add-link-form .setting-label').textContent = 'Add New Link';
     document.getElementById('new-link-title').focus();
   });
 
@@ -481,27 +488,50 @@ function renderLinksPage(c) {
     form.style.display = 'none';
     showBtn.style.display = '';
     selectedLinkImage = null;
+    document.getElementById('save-new-link').dataset.editId = '';
   });
 
-  document.getElementById('save-new-link').addEventListener('click', async () => {
+  document.getElementById('save-new-link').addEventListener('click', async (e) => {
     const title = document.getElementById('new-link-title').value.trim();
     const url = document.getElementById('new-link-url').value.trim();
     const icon = document.querySelector('input[name="new-link-icon"]:checked')?.value || 'link';
     if (!title) { showToast('Please enter a title'); return; }
 
-    const link = await api('/api/links', { 
-      method:'POST', 
-      body: JSON.stringify({ title, url, icon, image_url: selectedLinkImage || '' }) 
-    });
+    const editId = e.currentTarget.dataset.editId;
+    let link;
+    if (editId) {
+      link = await api(`/api/links/${editId}`, { 
+        method:'PUT', 
+        body: JSON.stringify({ title, url, icon, image_url: selectedLinkImage || '' }) 
+      });
+      if (link && !link.error) {
+        const idx = LINKS.findIndex(l => l.id == editId);
+        if (idx !== -1) {
+            LINKS[idx].title = title;
+            LINKS[idx].url = url;
+            LINKS[idx].icon = icon;
+            if (selectedLinkImage) LINKS[idx].image_url = selectedLinkImage;
+        }
+      }
+    } else {
+      link = await api('/api/links', { 
+        method:'POST', 
+        body: JSON.stringify({ title, url, icon, image_url: selectedLinkImage || '' }) 
+      });
+      if (link && !link.error) LINKS.push(link);
+    }
+
     if (link && !link.error) {
-      LINKS.push(link);
       form.style.display = 'none';
       showBtn.style.display = '';
       document.getElementById('new-link-title').value = '';
       document.getElementById('new-link-url').value = '';
+      e.currentTarget.dataset.editId = '';
+      e.currentTarget.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">add_link</span> Add Link';
+      document.querySelector('#add-link-form .setting-label').textContent = 'Add New Link';
       renderLinksList();
       updatePreview();
-      showToast('Link added!');
+      showToast(editId ? 'Link updated!' : 'Link added!');
     }
   });
 
@@ -522,65 +552,92 @@ function renderLinksList() {
   }
 
   list.innerHTML = LINKS.map(link => `
-    <div class="link-item" data-id="${link.id}">
-      <div class="link-drag"><span class="material-symbols-outlined">drag_indicator</span></div>
-      <div class="link-icon-badge" style="cursor:pointer; position:relative;" title="Click to change image" onclick="document.getElementById('edit-link-img-${link.id}').click()">
-        ${link.image_url 
-          ? `<img src="${link.image_url}" alt="${esc(link.title)}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">` 
-          : `<span class="material-symbols-outlined">${esc(link.icon||'link')}</span>`}
-        <div class="upload-icon-overlay" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; opacity:0; transition:0.2s;">
-          <span class="material-symbols-outlined" style="font-size:16px; color:#fff;">edit</span>
+    <div class="link-swipe-container" data-id="${link.id}">
+      <div class="link-swipe-actions">
+        <button class="link-swipe-action-btn edit-link" data-id="${link.id}"><span class="material-symbols-outlined">edit</span></button>
+        <button class="link-swipe-action-btn delete-link" data-id="${link.id}"><span class="material-symbols-outlined">delete</span></button>
+      </div>
+      <div class="link-swipe-content" data-id="${link.id}">
+        <div class="link-drag"><span class="material-symbols-outlined">drag_indicator</span></div>
+        <div class="link-icon-badge">
+          ${link.image_url 
+            ? `<img src="${link.image_url}" alt="${esc(link.title)}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">` 
+            : `<span class="material-symbols-outlined">${esc(link.icon||'link')}</span>`}
         </div>
-      </div>
-      <input type="file" id="edit-link-img-${link.id}" data-id="${link.id}" class="edit-link-img-input" accept="image/*" style="display:none;">
-      <div class="link-body">
-        <input type="text" class="link-title-input" value="${esc(link.title)}" data-field="title" data-id="${link.id}">
-        <input type="text" class="link-url-input" value="${esc(link.url)}" placeholder="https://..." data-field="url" data-id="${link.id}">
-      </div>
-      <div class="link-actions">
-        <label class="toggle-switch">
-          <input type="checkbox" ${link.is_active?'checked':''} data-id="${link.id}" class="link-toggle">
-          <span class="toggle-slider"></span>
-        </label>
-        <button class="icon-btn-sm delete-link" data-id="${link.id}"><span class="material-symbols-outlined">delete</span></button>
+        <div class="link-body" style="pointer-events: none;">
+          <div style="font-weight: 600; font-size: 1rem; color: var(--on-surface); margin-bottom:0.25rem;">${esc(link.title)}</div>
+          <div style="font-size: 0.85rem; color: var(--on-surface-variant); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${esc(link.url)}</div>
+        </div>
+        <div class="link-actions">
+          <label class="toggle-switch">
+            <input type="checkbox" ${link.is_active?'checked':''} data-id="${link.id}" class="link-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
       </div>
     </div>
   `).join('');
 
-  // Inline edit
-  list.querySelectorAll('.link-title-input, .link-url-input').forEach(input => {
-    input.addEventListener('change', async (e) => {
-      const id = e.target.dataset.id;
-      await api(`/api/links/${id}`, { method:'PUT', body: JSON.stringify({ [e.target.dataset.field]: e.target.value }) });
-      const idx = LINKS.findIndex(l => l.id == id);
-      if (idx !== -1) LINKS[idx][e.target.dataset.field] = e.target.value;
-      updatePreview();
-      showToast('Link updated');
+  // Swipe logic
+  let startX = 0;
+  let currentX = 0;
+  list.querySelectorAll('.link-swipe-content').forEach(content => {
+    content.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      content.style.transition = 'none';
+    }, {passive: true});
+    
+    content.addEventListener('touchmove', e => {
+      currentX = e.touches[0].clientX;
+      const diff = currentX - startX;
+      if (diff < 0 && diff > -120) {
+        content.style.transform = `translateX(${diff}px)`;
+      }
+    }, {passive: true});
+    
+    content.addEventListener('touchend', e => {
+      content.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+      const diff = currentX - startX;
+      if (diff < -50) {
+        content.style.transform = 'translateX(-100px)';
+      } else {
+        content.style.transform = 'translateX(0px)';
+      }
+      startX = 0; currentX = 0;
+    });
+    
+    // Desktop hover support
+    content.addEventListener('mouseenter', () => {
+      content.style.transform = 'translateX(-100px)';
+    });
+    content.parentElement.addEventListener('mouseleave', () => {
+      content.style.transform = 'translateX(0px)';
     });
   });
 
-  // Edit Image Upload
-  list.querySelectorAll('.link-icon-badge').forEach(badge => {
-    badge.addEventListener('mouseenter', () => badge.querySelector('.upload-icon-overlay').style.opacity = '1');
-    badge.addEventListener('mouseleave', () => badge.querySelector('.upload-icon-overlay').style.opacity = '0');
-  });
-
-  list.querySelectorAll('.edit-link-img-input').forEach(input => {
-    input.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const id = e.target.dataset.id;
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const dataUrl = event.target.result;
-        await api(`/api/links/${id}`, { method:'PUT', body: JSON.stringify({ image_url: dataUrl }) });
-        const idx = LINKS.findIndex(l => l.id == id);
-        if (idx !== -1) LINKS[idx].image_url = dataUrl;
-        renderLinksList();
-        updatePreview();
-        showToast('Link image updated');
-      };
-      reader.readAsDataURL(file);
+  // Edit Link
+  list.querySelectorAll('.edit-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const link = LINKS.find(l => l.id == btn.dataset.id);
+      if(!link) return;
+      document.getElementById('add-link-form').style.display = 'block';
+      document.getElementById('show-add-link').style.display = 'none';
+      document.getElementById('new-link-title').value = link.title;
+      document.getElementById('new-link-url').value = link.url;
+      const saveBtn = document.getElementById('save-new-link');
+      saveBtn.dataset.editId = link.id;
+      saveBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">save</span> Save Changes';
+      document.querySelector('#add-link-form .setting-label').textContent = 'Edit Link';
+      
+      const linkImgPreview = document.getElementById('link-img-preview');
+      if (link.image_url) {
+        linkImgPreview.innerHTML = `<img src="${link.image_url}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+      } else {
+        linkImgPreview.innerHTML = `<span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span><span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>`;
+        const iconRadio = document.querySelector(`input[name="new-link-icon"][value="${link.icon}"]`);
+        if(iconRadio) iconRadio.checked = true;
+      }
+      window.scrollTo(0,0);
     });
   });
 
@@ -607,6 +664,21 @@ function renderLinksList() {
       showToast('Link deleted');
     });
   });
+}
+
+function renderPreviewPage(c) {
+  c.className = 'page-content';
+  c.innerHTML = `
+    <div class="preview-page" style="height: 100%; display: flex; flex-direction: column;">
+      <div class="page-intro" style="margin-bottom: 1rem;">
+        <h2 style="font-size: 1.25rem;">Live Preview</h2>
+        <p style="color: var(--on-surface-variant); font-size: 0.9rem;">This is how your visitors see your Linkrra page.</p>
+      </div>
+      <div style="flex: 1; border-radius: 20px; overflow: hidden; border: 4px solid var(--surface-container); box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 120px;">
+        <iframe src="/${USER?.username || ''}" style="width: 100%; height: 100%; border: none;"></iframe>
+      </div>
+    </div>
+  `;
 }
 
 // ============================================================
