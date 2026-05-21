@@ -274,6 +274,10 @@
                         <span class="material-symbols-outlined">person</span>
                         <span>Profile</span>
                     </button>
+                    <button class="more-item" onclick="if(USER?.username) window.open('/' + USER.username, '_blank'); else showToast('Please setup your profile first'); closeMobileMore()">
+                        <span class="material-symbols-outlined">preview</span>
+                        <span>Preview</span>
+                    </button>
                     <button class="more-item" style="color: #ff6e84;" onclick="logout()">
                         <span class="material-symbols-outlined">logout</span>
                         <span>Log Out</span>

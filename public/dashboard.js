@@ -524,11 +524,15 @@ function renderLinksList() {
   list.innerHTML = LINKS.map(link => `
     <div class="link-item" data-id="${link.id}">
       <div class="link-drag"><span class="material-symbols-outlined">drag_indicator</span></div>
-      <div class="link-icon-badge">
+      <div class="link-icon-badge" style="cursor:pointer; position:relative;" title="Click to change image" onclick="document.getElementById('edit-link-img-${link.id}').click()">
         ${link.image_url 
           ? `<img src="${link.image_url}" alt="${esc(link.title)}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">` 
           : `<span class="material-symbols-outlined">${esc(link.icon||'link')}</span>`}
+        <div class="upload-icon-overlay" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; opacity:0; transition:0.2s;">
+          <span class="material-symbols-outlined" style="font-size:16px; color:#fff;">edit</span>
+        </div>
       </div>
+      <input type="file" id="edit-link-img-${link.id}" data-id="${link.id}" class="edit-link-img-input" accept="image/*" style="display:none;">
       <div class="link-body">
         <input type="text" class="link-title-input" value="${esc(link.title)}" data-field="title" data-id="${link.id}">
         <input type="text" class="link-url-input" value="${esc(link.url)}" placeholder="https://..." data-field="url" data-id="${link.id}">
@@ -551,6 +555,32 @@ function renderLinksList() {
       const idx = LINKS.findIndex(l => l.id == id);
       if (idx !== -1) LINKS[idx][e.target.dataset.field] = e.target.value;
       updatePreview();
+      showToast('Link updated');
+    });
+  });
+
+  // Edit Image Upload
+  list.querySelectorAll('.link-icon-badge').forEach(badge => {
+    badge.addEventListener('mouseenter', () => badge.querySelector('.upload-icon-overlay').style.opacity = '1');
+    badge.addEventListener('mouseleave', () => badge.querySelector('.upload-icon-overlay').style.opacity = '0');
+  });
+
+  list.querySelectorAll('.edit-link-img-input').forEach(input => {
+    input.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const id = e.target.dataset.id;
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const dataUrl = event.target.result;
+        await api(`/api/links/${id}`, { method:'PUT', body: JSON.stringify({ image_url: dataUrl }) });
+        const idx = LINKS.findIndex(l => l.id == id);
+        if (idx !== -1) LINKS[idx].image_url = dataUrl;
+        renderLinksList();
+        updatePreview();
+        showToast('Link image updated');
+      };
+      reader.readAsDataURL(file);
     });
   });
 
@@ -983,7 +1013,7 @@ function renderDesignPage(c) {
         </div>
       </div>
       
-      <div class="editor-footer">
+      <div class="editor-footer" style="padding-bottom: 120px;">
          <button class="btn-glass" id="reset-design">Reset to Default</button>
          <button class="btn-kinetic" id="save-design">Save Changes</button>
       </div>
@@ -1531,7 +1561,7 @@ async function renderProfilePage(c) {
           </div>
         </div>
 
-        <div class="profile-actions" style="margin-top:2rem; display:flex; justify-content:flex-end;">
+        <div class="profile-actions" style="margin-top:2rem; display:flex; justify-content:flex-end; padding-bottom:120px;">
           <button class="btn-kinetic" id="save-profile" style="padding: 1rem 3rem; font-size: 1.05rem;">Save Profile Changes</button>
         </div>
       </div>
