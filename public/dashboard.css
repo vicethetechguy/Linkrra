@@ -109,13 +109,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ====== LOGO — BIG AND BOLD. 120px. ALWAYS. ====== */
 .logo-image {
-    max-height: 120px;
+    height: 36px;
     width: auto;
     object-fit: contain;
     display: block;
     position: relative;
     z-index: 100;
     filter: drop-shadow(0 8px 24px rgba(140, 82, 255, 0.3));
+    transform: scale(1.4);
+    transform-origin: left center;
 }
 
 .topnav-center {
@@ -3470,8 +3472,10 @@ input:checked + .slider-kinetic:before { transform: translateX(32px); }
     }
     
     .topnav-logo .logo-image {
-        height: 48px;
-        margin: -12px 0;
+        height: 28px;
+        transform: scale(1.6);
+        transform-origin: left center;
+        margin: 0;
     }
     
     /* Main Area */

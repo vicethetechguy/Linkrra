@@ -552,70 +552,45 @@ function renderLinksList() {
   }
 
   list.innerHTML = LINKS.map(link => `
-    <div class="link-swipe-container" data-id="${link.id}">
-      <div class="link-swipe-actions">
-        <button class="link-swipe-action-btn edit-link" data-id="${link.id}"><span class="material-symbols-outlined">edit</span></button>
-        <button class="link-swipe-action-btn delete-link" data-id="${link.id}"><span class="material-symbols-outlined">delete</span></button>
+    <div class="link-item" data-id="${link.id}">
+      <div class="link-drag"><span class="material-symbols-outlined">drag_indicator</span></div>
+      <div class="link-icon-badge" style="cursor:pointer; position:relative;" title="Click to change image" onclick="document.getElementById('edit-link-img-${link.id}').click()">
+        ${link.image_url 
+          ? `<img src="${link.image_url}" alt="${esc(link.title)}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">` 
+          : `<span class="material-symbols-outlined">${esc(link.icon||'link')}</span>`}
+        <div class="upload-icon-overlay" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); border-radius:6px; display:flex; align-items:center; justify-content:center; opacity:0; transition:0.2s;">
+          <span class="material-symbols-outlined" style="font-size:16px; color:#fff;">edit</span>
+        </div>
       </div>
-      <div class="link-swipe-content" data-id="${link.id}">
-        <div class="link-drag"><span class="material-symbols-outlined">drag_indicator</span></div>
-        <div class="link-icon-badge">
-          ${link.image_url 
-            ? `<img src="${link.image_url}" alt="${esc(link.title)}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">` 
-            : `<span class="material-symbols-outlined">${esc(link.icon||'link')}</span>`}
-        </div>
-        <div class="link-body" style="pointer-events: none;">
-          <div style="font-weight: 600; font-size: 1rem; color: var(--on-surface); margin-bottom:0.25rem;">${esc(link.title)}</div>
-          <div style="font-size: 0.85rem; color: var(--on-surface-variant); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${esc(link.url)}</div>
-        </div>
-        <div class="link-actions">
-          <label class="toggle-switch">
-            <input type="checkbox" ${link.is_active?'checked':''} data-id="${link.id}" class="link-toggle">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
+      <input type="file" id="edit-link-img-${link.id}" data-id="${link.id}" class="edit-link-img-input" accept="image/*" style="display:none;">
+      <div class="link-body">
+        <input type="text" class="link-title-input" value="${esc(link.title)}" data-field="title" data-id="${link.id}">
+        <input type="text" class="link-url-input" value="${esc(link.url)}" placeholder="https://..." data-field="url" data-id="${link.id}">
+      </div>
+      <div class="link-actions">
+        <label class="toggle-switch">
+          <input type="checkbox" ${link.is_active?'checked':''} data-id="${link.id}" class="link-toggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <button class="icon-btn-sm edit-link" data-id="${link.id}" title="Edit Link"><span class="material-symbols-outlined">edit</span></button>
+        <button class="icon-btn-sm delete-link" data-id="${link.id}" title="Delete Link"><span class="material-symbols-outlined">delete</span></button>
       </div>
     </div>
   `).join('');
 
-  // Swipe logic
-  let startX = 0;
-  let currentX = 0;
-  list.querySelectorAll('.link-swipe-content').forEach(content => {
-    content.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-      content.style.transition = 'none';
-    }, {passive: true});
-    
-    content.addEventListener('touchmove', e => {
-      currentX = e.touches[0].clientX;
-      const diff = currentX - startX;
-      if (diff < 0 && diff > -120) {
-        content.style.transform = `translateX(${diff}px)`;
-      }
-    }, {passive: true});
-    
-    content.addEventListener('touchend', e => {
-      content.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-      const diff = currentX - startX;
-      if (diff < -50) {
-        content.style.transform = 'translateX(-100px)';
-      } else {
-        content.style.transform = 'translateX(0px)';
-      }
-      startX = 0; currentX = 0;
-    });
-    
-    // Desktop hover support
-    content.addEventListener('mouseenter', () => {
-      content.style.transform = 'translateX(-100px)';
-    });
-    content.parentElement.addEventListener('mouseleave', () => {
-      content.style.transform = 'translateX(0px)';
+  // Inline edit
+  list.querySelectorAll('.link-title-input, .link-url-input').forEach(input => {
+    input.addEventListener('change', async (e) => {
+      const id = e.target.dataset.id;
+      await api(`/api/links/${id}`, { method:'PUT', body: JSON.stringify({ [e.target.dataset.field]: e.target.value }) });
+      const idx = LINKS.findIndex(l => l.id == id);
+      if (idx !== -1) LINKS[idx][e.target.dataset.field] = e.target.value;
+      updatePreview();
+      showToast('Link updated');
     });
   });
 
-  // Edit Link
+  // Edit Link Form
   list.querySelectorAll('.edit-link').forEach(btn => {
     btn.addEventListener('click', () => {
       const link = LINKS.find(l => l.id == btn.dataset.id);
@@ -638,6 +613,31 @@ function renderLinksList() {
         if(iconRadio) iconRadio.checked = true;
       }
       window.scrollTo(0,0);
+    });
+  });
+
+  // Edit Image Upload via Icon
+  list.querySelectorAll('.link-icon-badge').forEach(badge => {
+    badge.addEventListener('mouseenter', () => badge.querySelector('.upload-icon-overlay').style.opacity = '1');
+    badge.addEventListener('mouseleave', () => badge.querySelector('.upload-icon-overlay').style.opacity = '0');
+  });
+
+  list.querySelectorAll('.edit-link-img-input').forEach(input => {
+    input.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const id = e.target.dataset.id;
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const dataUrl = event.target.result;
+        await api(`/api/links/${id}`, { method:'PUT', body: JSON.stringify({ image_url: dataUrl }) });
+        const idx = LINKS.findIndex(l => l.id == id);
+        if (idx !== -1) LINKS[idx].image_url = dataUrl;
+        renderLinksList();
+        updatePreview();
+        showToast('Link image updated');
+      };
+      reader.readAsDataURL(file);
     });
   });
 
