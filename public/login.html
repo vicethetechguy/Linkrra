@@ -40,7 +40,12 @@
             
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" class="form-control" placeholder="••••••••" required minlength="6">
+                <div class="password-wrapper">
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required minlength="6">
+                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('password', this)" aria-label="Toggle password visibility">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
                 <span class="field-error" id="password-error"></span>
             </div>
 
@@ -58,6 +63,18 @@
         const form = document.getElementById('login-form');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
+        
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('.material-symbols-outlined');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
         const emailError = document.getElementById('email-error');
         const passwordError = document.getElementById('password-error');
         const errorMsg = document.getElementById('error-msg');
