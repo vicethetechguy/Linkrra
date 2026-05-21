@@ -563,34 +563,21 @@ function renderLinksList() {
         </div>
       </div>
       <input type="file" id="edit-link-img-${link.id}" data-id="${link.id}" class="edit-link-img-input" accept="image/*" style="display:none;">
-      <div class="link-body">
-        <input type="text" class="link-title-input" value="${esc(link.title)}" data-field="title" data-id="${link.id}">
-        <input type="text" class="link-url-input" value="${esc(link.url)}" placeholder="https://..." data-field="url" data-id="${link.id}">
+      <div class="link-body edit-link" data-id="${link.id}" style="cursor: pointer; flex: 1; min-width: 0;">
+        <div style="font-weight: 600; font-size: 1rem; color: var(--on-surface); margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(link.title)}</div>
+        <div style="font-size: 0.85rem; color: var(--on-surface-variant); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(link.url)}</div>
       </div>
       <div class="link-actions">
         <label class="toggle-switch">
           <input type="checkbox" ${link.is_active?'checked':''} data-id="${link.id}" class="link-toggle">
           <span class="toggle-slider"></span>
         </label>
-        <button class="icon-btn-sm edit-link" data-id="${link.id}" title="Edit Link"><span class="material-symbols-outlined">edit</span></button>
         <button class="icon-btn-sm delete-link" data-id="${link.id}" title="Delete Link"><span class="material-symbols-outlined">delete</span></button>
       </div>
     </div>
   `).join('');
 
-  // Inline edit
-  list.querySelectorAll('.link-title-input, .link-url-input').forEach(input => {
-    input.addEventListener('change', async (e) => {
-      const id = e.target.dataset.id;
-      await api(`/api/links/${id}`, { method:'PUT', body: JSON.stringify({ [e.target.dataset.field]: e.target.value }) });
-      const idx = LINKS.findIndex(l => l.id == id);
-      if (idx !== -1) LINKS[idx][e.target.dataset.field] = e.target.value;
-      updatePreview();
-      showToast('Link updated');
-    });
-  });
-
-  // Edit Link Form
+  // Edit Link Form (Clicking the link body)
   list.querySelectorAll('.edit-link').forEach(btn => {
     btn.addEventListener('click', () => {
       const link = LINKS.find(l => l.id == btn.dataset.id);
