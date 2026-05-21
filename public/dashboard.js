@@ -415,11 +415,14 @@ function renderLinksPage(c) {
             <div class="field">
               <label>Custom Image (optional)</label>
               <input type="file" id="link-img-input" accept="image/*" style="display:none;">
-              <div class="link-img-upload" id="link-img-upload">
-                <div class="link-img-preview" id="link-img-preview">
-                  <span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span>
-                  <span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>
+              <div style="display:flex; gap:1rem; align-items:center;">
+                <div class="link-img-upload" id="link-img-upload">
+                  <div class="link-img-preview" id="link-img-preview">
+                    <span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span>
+                    <span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>
+                  </div>
                 </div>
+                <button class="btn-glass" id="remove-link-img" style="display:none; color:#ff4757; border-color:rgba(255,71,87,0.3);">Remove</button>
               </div>
             </div>
             <div class="field">
@@ -448,13 +451,19 @@ function renderLinksPage(c) {
     </div>
   `;
 
-  // Link image upload
   const linkImgInput = document.getElementById('link-img-input');
   const linkImgUpload = document.getElementById('link-img-upload');
   const linkImgPreview = document.getElementById('link-img-preview');
+  const removeLinkImg = document.getElementById('remove-link-img');
 
   linkImgUpload.addEventListener('click', () => linkImgInput.click());
   
+  removeLinkImg.addEventListener('click', () => {
+    selectedLinkImage = '';
+    linkImgPreview.innerHTML = `<span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span><span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>`;
+    removeLinkImg.style.display = 'none';
+  });
+
   linkImgInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -463,6 +472,7 @@ function renderLinksPage(c) {
     reader.onload = (event) => {
       selectedLinkImage = event.target.result;
       linkImgPreview.innerHTML = `<img src="${event.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+      removeLinkImg.style.display = 'block';
     };
     reader.readAsDataURL(file);
   });
@@ -475,6 +485,7 @@ function renderLinksPage(c) {
     showBtn.style.display = 'none';
     selectedLinkImage = null;
     linkImgPreview.innerHTML = `<span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span><span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>`;
+    document.getElementById('remove-link-img').style.display = 'none';
     document.getElementById('new-link-title').value = '';
     document.getElementById('new-link-url').value = '';
     const saveBtn = document.getElementById('save-new-link');
@@ -500,9 +511,11 @@ function renderLinksPage(c) {
     const editId = e.currentTarget.dataset.editId;
     let link;
     if (editId) {
+      const orig = LINKS.find(l => l.id == editId);
+      const finalImage = selectedLinkImage !== null ? selectedLinkImage : (orig ? orig.image_url : '');
       link = await api(`/api/links/${editId}`, { 
         method:'PUT', 
-        body: JSON.stringify({ title, url, icon, image_url: selectedLinkImage || '' }) 
+        body: JSON.stringify({ title, url, icon, image_url: finalImage }) 
       });
       if (link && !link.error) {
         const idx = LINKS.findIndex(l => l.id == editId);
@@ -510,7 +523,7 @@ function renderLinksPage(c) {
             LINKS[idx].title = title;
             LINKS[idx].url = url;
             LINKS[idx].icon = icon;
-            if (selectedLinkImage) LINKS[idx].image_url = selectedLinkImage;
+            LINKS[idx].image_url = finalImage;
         }
       }
     } else {
@@ -592,10 +605,14 @@ function renderLinksList() {
       document.querySelector('#add-link-form .setting-label').textContent = 'Edit Link';
       
       const linkImgPreview = document.getElementById('link-img-preview');
+      const removeBtn = document.getElementById('remove-link-img');
+      selectedLinkImage = null;
       if (link.image_url) {
         linkImgPreview.innerHTML = `<img src="${link.image_url}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+        removeBtn.style.display = 'block';
       } else {
         linkImgPreview.innerHTML = `<span class="material-symbols-outlined" style="font-size:24px;color:var(--on-surface-variant);">image</span><span style="color:var(--on-surface-variant);font-size:0.8rem;">Upload image</span>`;
+        removeBtn.style.display = 'none';
         const iconRadio = document.querySelector(`input[name="new-link-icon"][value="${link.icon}"]`);
         if(iconRadio) iconRadio.checked = true;
       }
@@ -656,13 +673,16 @@ function renderLinksList() {
 function renderPreviewPage(c) {
   c.className = 'page-content';
   c.innerHTML = `
-    <div class="preview-page" style="height: 100%; display: flex; flex-direction: column;">
-      <div class="page-intro" style="margin-bottom: 1rem;">
+    <div class="preview-page" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 1rem;">
+      <div class="page-intro" style="margin-bottom: 1rem; text-align: center;">
         <h2 style="font-size: 1.25rem;">Live Preview</h2>
         <p style="color: var(--on-surface-variant); font-size: 0.9rem;">This is how your visitors see your Linkrra page.</p>
       </div>
-      <div style="flex: 1; border-radius: 20px; overflow: hidden; border: 4px solid var(--surface-container); box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 120px;">
-        <iframe src="/${USER?.username || ''}" style="width: 100%; height: 100%; border: none;"></iframe>
+      <div class="device-frame" style="transform: scale(0.9); transform-origin: top center; margin-bottom: 100px;">
+        <div class="device-notch"></div>
+        <div class="device-screen" style="overflow: hidden; padding: 0;">
+          <iframe src="/${USER?.username || ''}" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
       </div>
     </div>
   `;
