@@ -352,7 +352,7 @@ function navigateTo(page) {
     link.classList.toggle('active', linkPage === page);
   });
   const pageTitle = document.querySelector('.page-title');
-  const titles = { links:'Links', shop:'Shop', design:'Design', earn:'Earn', card:'Card', blog:'Blog', profile:'Profile', notifications:'Notifications', audience:'Audience', insights:'Insights', invoice:'Invoice', social_planner:'Social Planner', pricing:'Upgrade' };
+  const titles = { links:'Links', shop:'Shop', design:'Design', earn:'Earn', card:'Card', blog:'Blog', profile:'Profile', notifications:'Notifications', audience:'Audience', insights:'Insights', invoice:'Invoice', social_planner:'Social Planner', pricing:'Upgrade', preview:'Preview' };
   if (pageTitle) pageTitle.textContent = titles[page] || page;
 
   const container = document.getElementById('page-content');
@@ -674,18 +674,12 @@ function renderPreviewPage(c) {
   c.className = 'page-content';
   c.innerHTML = `
     <div class="preview-page" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 1rem;">
-      <div class="page-intro" style="margin-bottom: 1rem; text-align: center;">
-        <h2 style="font-size: 1.25rem;">Live Preview</h2>
-        <p style="color: var(--on-surface-variant); font-size: 0.9rem;">This is how your visitors see your Linkrra page.</p>
-      </div>
-      <div class="device-frame" style="transform: scale(0.9); transform-origin: top center; margin-bottom: 100px;">
-        <div class="device-notch"></div>
-        <div class="device-screen" style="overflow: hidden; padding: 0;">
-          <iframe src="/${USER?.username || ''}" style="width: 100%; height: 100%; border: none;"></iframe>
-        </div>
+      <p style="color: var(--on-surface-variant); font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">This is how your visitors see your Linkrra business page.</p>
+      <div class="mobile-preview-container" style="transform: scale(0.9); transform-origin: top center; margin-bottom: 100px; width: 100%; max-width: 400px; display: flex; justify-content: center;">
       </div>
     </div>
   `;
+  if (typeof syncMobilePreview === 'function') syncMobilePreview();
 }
 
 // ============================================================
@@ -2191,17 +2185,17 @@ function renderInvoicePage(c) {
 // LIVE PREVIEW
 // ============================================================
 function updatePreview() {
-  const mockName = document.querySelector('.mock-name');
-  const mockBio = document.querySelector('.mock-bio');
-  const mockLinks = document.querySelector('.mock-links');
-  const mockShopSection = document.querySelector('.mock-shop-section');
-  const mockShopGrid = document.querySelector('.mock-shop-grid');
-  const mockBlogSection = document.querySelector('.mock-blog-section');
-  const mockBlogGrid = document.querySelector('.mock-blog-grid');
-  const mockAvatar = document.querySelector('.mock-avatar');
-  const mockBanner = document.querySelector('.mock-banner');
-  const mockPage = document.querySelector('.mock-page');
-  const deviceScreen = document.querySelector('.device-screen');
+  const mockName = document.querySelector('.preview-aside .mock-name');
+  const mockBio = document.querySelector('.preview-aside .mock-bio');
+  const mockLinks = document.querySelector('.preview-aside .mock-links');
+  const mockShopSection = document.querySelector('.preview-aside .mock-shop-section');
+  const mockShopGrid = document.querySelector('.preview-aside .mock-shop-grid');
+  const mockBlogSection = document.querySelector('.preview-aside .mock-blog-section');
+  const mockBlogGrid = document.querySelector('.preview-aside .mock-blog-grid');
+  const mockAvatar = document.querySelector('.preview-aside .mock-avatar');
+  const mockBanner = document.querySelector('.preview-aside .mock-banner');
+  const mockPage = document.querySelector('.preview-aside .mock-page');
+  const deviceScreen = document.querySelector('.preview-aside .device-screen');
   
   // Parse Settings
   let s = {};
@@ -2326,7 +2320,7 @@ function updatePreview() {
   }
   
   // Update branding visibility
-  const mockFooter = document.getElementById('mock-footer');
+  const mockFooter = document.querySelector('.preview-aside #mock-footer');
   if (mockFooter) {
     const canHide = USER?.plan === 'pro' || USER?.plan === 'business';
     const hideNow = canHide && config.branding_hide;
@@ -2334,7 +2328,7 @@ function updatePreview() {
   }
   
   // Update verified badge color based on plan
-  const mockVerified = document.querySelector('.mock-verified');
+  const mockVerified = document.querySelector('.preview-aside .mock-verified');
   const plan = (USER?.plan || 'free').toLowerCase();
   
   if (mockVerified) {
@@ -2347,6 +2341,16 @@ function updatePreview() {
     } else {
       mockVerified.style.display = 'none';
     }
+  }
+  
+  if (typeof syncMobilePreview === 'function') syncMobilePreview();
+}
+
+function syncMobilePreview() {
+  const desktopFrame = document.querySelector('.preview-aside .device-frame');
+  const mobileContainer = document.querySelector('.mobile-preview-container');
+  if (desktopFrame && mobileContainer) {
+    mobileContainer.innerHTML = desktopFrame.outerHTML;
   }
 }
 
