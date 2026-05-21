@@ -3470,7 +3470,8 @@ input:checked + .slider-kinetic:before { transform: translateX(32px); }
     }
     
     .topnav-logo .logo-image {
-        height: 28px;
+        height: 48px;
+        margin: -12px 0;
     }
     
     /* Main Area */
@@ -3832,7 +3833,7 @@ input[type="range"]::-webkit-slider-thumb {
     }
     
     .main-area {
-        padding-bottom: 90px !important;
+        padding-bottom: 120px !important;
     }
 }
 
