@@ -1175,7 +1175,7 @@ function renderDesignPage(c) {
              settings_json: JSON.stringify(finalConfig)
           })
        });
-       showToast('Design saved! Live on your profile.');
+       showToast('Design saved live on preview');
        window._editorLive = {}; // Clear overrides after save
        updatePreview();
      } catch (err) {

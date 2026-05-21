@@ -628,7 +628,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 0.5rem;
 }
 
 .page-title {
@@ -1331,7 +1331,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--on-surface-variant);
     font-size: 0.95rem;
     line-height: 1.6;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .section-title {
@@ -2131,7 +2131,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Toast */
 .toast {
     position: fixed;
-    bottom: -60px;
+    top: -100px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--kinetic-gradient);
@@ -2141,13 +2141,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
     box-shadow: 0 10px 30px rgba(188, 158, 255, 0.3);
-    transition: bottom 300ms cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
+    transition: top 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
     white-space: nowrap;
 }
 
 .toast.show {
-    bottom: 2rem;
+    top: 2rem;
 }
 
 /* ============================================
@@ -3419,6 +3419,20 @@ input:checked + .slider-kinetic:before { transform: translateX(32px); }
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+    /* General Mobile Padding & Readability */
+    .page-content { padding: 1rem; padding-bottom: 120px; }
+    .page-title { font-size: 1.5rem; margin-bottom: 0.5rem !important; }
+    .page-desc { font-size: 0.85rem !important; margin-bottom: 1rem !important; }
+    .main-header { margin-bottom: 0.5rem !important; gap: 0.5rem !important; }
+    
+    /* Form & Button Sizing */
+    .btn-kinetic, .btn-glass, .btn-action { padding: 0.75rem 1rem !important; font-size: 0.9rem !important; }
+    .setting-label { font-size: 1rem !important; margin-bottom: 0.75rem !important; }
+    .kinetic-input { font-size: 0.9rem !important; padding: 0.75rem !important; }
+    .setting-block { padding: 1rem !important; border-radius: 16px !important; margin-bottom: 1rem !important; }
+}
+
 @media (max-width: 900px) {
     .pricing-grid {
         grid-template-columns: 1fr;
@@ -3609,8 +3623,10 @@ input:checked + .slider-kinetic:before { transform: translateX(32px); }
     .toast {
         left: 1rem;
         right: 1rem;
-        bottom: 1rem;
+        transform: none;
         font-size: 0.85rem;
+        white-space: normal;
+        text-align: center;
     }
 }
 
